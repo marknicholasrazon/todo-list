@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h1>Todo List</h1>
+<form id="form">
+	<input type="text" id="taskInput" placeholder="Enter task">
+	<button type="submit">Add Task</button>
+</form>
+
+
+<ul id="taskList"></ul>
+
+
+<script type="text/javascript">
+	var form = document.getElementById("form");
+	var taskList = document.getElementById("taskList");
+	var taskInput = document.getElementById("taskInput");
+
+	if (localStorage.getItem("tasks")) {
+		taskList.innerHTML = localStorage.getItem("tasks");
+	}
+
+	form.addEventListener("submit", function(event){
+		event.preventDefault();
+
+		var task = document.createElement("li");
+		task.innerHTML = taskInput.value;
+
+		var removeButton = document.createElement("button");
+		removeButton.innerHTML = "Remove";
+		removeButton.addEventListener("click", function(){
+			taskList.removeChild(task);
+			updateLocalStorage();
+		});
+		task.appendChild(removeButton);
+		taskList.appendChild(task);
+		taskInput.value = "";
+
+		updateLocalStorage();
+	});
+
+	function updateLocalStorage(){
+		localStorage.setItem("tasks", taskList.innerHTML);
+	}
+</script>
+</body>
+</html>
